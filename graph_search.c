@@ -113,19 +113,21 @@ void heuristicSearch(Graph *graph, int target) {
 	Node current = graph->table[1];
 	Node *path = (Node *) malloc(graph->MaxSize * sizeof(Node));
 	int i = 0;
+	int path_len = 0;
 
 	//printf("First node is %d\n", current.index);
 
 	while (checkList(target, current) && current.outlist != NULL) {
-		path[i] = current;
+		path[path_len] = current;
 		//printf("Path is %d\n", current.index);
-		i++;
+		path_len++;
 		current = findMax(current.outlist, graph);
 	}
-	path[i] = current;
+	path[path_len] = current;
+	path_len++;
 
 	printf("Shortest path from node %d to %d: [ ", 1, target);
-	for (i = 0; i < graph->MaxSize; i++) {
+	for (i = 0; i < path_len; i++) {
 		if (path[i].index == 0)
 			break;
 		printf("%d ", path[i].index);
