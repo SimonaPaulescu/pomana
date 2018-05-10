@@ -124,8 +124,11 @@ void heuristicSearch(Graph *graph, int target) {
 	}
 	path[i] = current;
 
-	printf("Shortest path\n");
-	for (i = 1; i < graph->MaxSize; i++)
-		if (path[i].index != 0)
-			printf("%d\n", path[i].index);
+	printf("Shortest path from node %d to %d: [ ", 1, target);
+	for (i = 1; i < graph->MaxSize; i++) {
+		if (path[i].index == 0)
+			break;
+		printf("%d ", path[i].index);
+	}
+	printf("]\n");
 }
