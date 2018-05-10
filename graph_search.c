@@ -115,7 +115,7 @@ void heuristicSearch(Graph *graph, int target) {
 	List *adjacency = current.outlist;
 	int i = 1;
 
-	printf("First node is %d\n", current.index);
+	//printf("First node is %d\n", current.index);
 
 	while (checkList(target, current) && adjacency != NULL) {
 		path[i] = current;
@@ -128,5 +128,6 @@ void heuristicSearch(Graph *graph, int target) {
 
 	printf("Shortest path\n");
 	for (i = 1; i < graph->MaxSize; i++)
-		printf("%d\n", path[i].index);
+		if (path[i].index != 0)
+			printf("%d\n", path[i].index);
 }
