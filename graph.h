@@ -33,7 +33,7 @@ extern void print_graph (Graph *mygraph);
 extern void dijkstra(Graph *mygraph, int start);
 extern void set_states_unvisited(Graph *mygraph);
 extern int checkList(int target, Node node);
-extern Node findMax(List *list, Graph *graph);
+extern Node *findMaxOutDegreeNode(Node *node, Graph *graph);
 extern void heuristicSearch(Graph *graph, int target);
 
 #endif

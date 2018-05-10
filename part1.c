@@ -16,10 +16,9 @@ int main(int argc,char *argv[])
 	if (rc < 0)
 		exit(EXIT_FAILURE);
 
-    for(i = 1; i <= mygraph.MaxSize; i++){
+	for (i = 1; i <= mygraph.MaxSize; i++) {
 		 heuristicSearch(&mygraph, i);
 		// dijkstra(&mygraph, 2);
-
 	}
 	//heuristicSearch(&mygraph, 23);
 	//print_graph(&mygraph);
