@@ -112,17 +112,15 @@ void heuristicSearch(Graph *graph, int target) {
 
 	Node current = graph->table[1];
 	Node *path = (Node *) malloc(graph->MaxSize * sizeof(Node));
-	List *adjacency = current.outlist;
 	int i = 1;
 
 	//printf("First node is %d\n", current.index);
 
-	while (checkList(target, current) && adjacency != NULL) {
+	while (checkList(target, current) && current.outlist != NULL) {
 		path[i] = current;
 		//printf("Path is %d\n", current.index);
 		i++;
 		current = findMax(current.outlist, graph);
-		adjacency = current.outlist;
 	}
 	path[i] = current;
 
