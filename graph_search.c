@@ -23,13 +23,14 @@ void dijkstra(Graph *graph, int start) {
 	int *distance, distanceVal = 1, current = start, minIndex, minVal, i;
 	int *visitedNodes;
 
-	distance = calloc(size - 1, sizeof(int));
-	visitedNodes = calloc(size - 1, sizeof(int));
+	distance = calloc(size, sizeof(int));
+	visitedNodes = calloc(size, sizeof(int));
 
 	while (!full(visitedNodes, size)) {
 		List *adjacency;
-		visitedNodes[current] = 1;
 		adjacency = graph->table[current].outlist;
+		visitedNodes[current] = 1;
+
 		printf("Adjacency is\n");
 		while (adjacency != NULL) {
 			printf("%d\n", adjacency->index);
@@ -41,21 +42,18 @@ void dijkstra(Graph *graph, int start) {
 			adjacency = adjacency->next;
 		}
 
-		i = 1;
 		//we find an initial minimum value
-		while (i < size) {
+		for (i = 1; i < size; i++)
 			if (distance[i] != 0 && visitedNodes[i] == 0) {
 				printf("distance : %d\n", distance[i]);
 				minVal = distance[i];
 				minIndex = i;
 				break;
 			}
-			i++;
-		}
 
 		//now we loop again to find the minimum
 		for (i = 1; i < size; i++) {
-			if (visitedNodes[i] == 0 && distance[i] != 0) {
+			if (distance[i] != 0 && visitedNodes[i] == 0) {
 				if (distance[i] <= minVal) {
 					minVal = distance[i];
 					minIndex = i;
@@ -75,6 +73,9 @@ void dijkstra(Graph *graph, int start) {
 			printf("%d , %d\n", i, distance[i]);
 		}
 	}
+
+	free(distance);
+	free(visitedNodes);
 }
 
 /*
