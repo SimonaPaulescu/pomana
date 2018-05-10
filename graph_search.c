@@ -37,9 +37,9 @@ void dijkstra(Graph *graph, int start) {
 		adjacency = graph->table[currentIndex].outlist;
 		visitedNodes[currentIndex] = 1;
 
-		printf("Adjacency is\n");
+		//printf("Adjacency is\n");
 		while (adjacency != NULL) {
-			printf("%d\n", adjacency->index);
+			//printf("%d\n", adjacency->index);
 			if (nodeDistances[adjacency->index] > distanceUntilNow && nodeDistances[adjacency->index] != 0) {
 				nodeDistances[adjacency->index] = distanceUntilNow;
 			} else if (nodeDistances[adjacency->index] == 0) {
@@ -70,18 +70,19 @@ void dijkstra(Graph *graph, int start) {
 		if (isArrayFilled(visitedNodes, size))
 			break;
 
-		printf("Minimum node index is %d with distance %d from start index %d\n", minIndex, minDistance, start);
+		//printf("Minimum node index is %d with distance %d from start index %d\n", minIndex, minDistance, start);
 		currentIndex = minIndex;
-		printf("Current node index is %d\n", currentIndex);
+		//printf("Current node index is %d\n", currentIndex);
 		distanceUntilNow++;
 	}
 
-	printf("Distances from %d are\n", start);
+	printf("Distances from node %d to node\n", start);
 	for (i = 1; i < size; i++) {
 		if (i != start) {
-			printf("%d , %d\n", i, nodeDistances[i]);
+			printf("  * %d is %d\n", i, nodeDistances[i]);
 		}
 	}
+	printf("0 distance means node is not reachable.\n");
 
 	free(nodeDistances);
 	free(visitedNodes);
