@@ -60,6 +60,16 @@ void dijkstra(Graph *graph, int start) {
 			}
 		}
 
+		/*
+		 * Loop exit conditions:
+		 *   * no more connected nodes starting from start
+		 *   * all nodes are now visited
+		 */
+		if (minIndex == -1)
+			break;
+		if (isArrayFilled(visitedNodes, size))
+			break;
+
 		printf("Minimum node index is %d with distance %d from start index %d\n", minIndex, minDistance, start);
 		currentIndex = minIndex;
 		printf("Current node index is %d\n", currentIndex);
