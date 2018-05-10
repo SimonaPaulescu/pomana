@@ -112,7 +112,7 @@ void heuristicSearch(Graph *graph, int target) {
 
 	Node current = graph->table[1];
 	Node *path = (Node *) malloc(graph->MaxSize * sizeof(Node));
-	int i = 1;
+	int i = 0;
 
 	//printf("First node is %d\n", current.index);
 
@@ -125,7 +125,7 @@ void heuristicSearch(Graph *graph, int target) {
 	path[i] = current;
 
 	printf("Shortest path from node %d to %d: [ ", 1, target);
-	for (i = 1; i < graph->MaxSize; i++) {
+	for (i = 0; i < graph->MaxSize; i++) {
 		if (path[i].index == 0)
 			break;
 		printf("%d ", path[i].index);
