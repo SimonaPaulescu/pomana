@@ -24,7 +24,6 @@ void dijkstra(Graph *graph, int start) {
 	int *nodeDistances;
 	int *visitedNodes;
 	int currentIndex = start;
-	int distanceUntilNow = 1;
 	int minDistance, minIndex;
 	int i;
 
@@ -40,11 +39,10 @@ void dijkstra(Graph *graph, int start) {
 		//printf("Adjacency is\n");
 		while (adjacency != NULL) {
 			//printf("%d\n", adjacency->index);
-			if (nodeDistances[adjacency->index] > distanceUntilNow && nodeDistances[adjacency->index] != 0) {
-				nodeDistances[adjacency->index] = distanceUntilNow;
-			} else if (nodeDistances[adjacency->index] == 0) {
-				nodeDistances[adjacency->index] = distanceUntilNow;
-			}
+			if (nodeDistances[adjacency->index] > nodeDistances[currentIndex] + 1)
+				nodeDistances[adjacency->index] = nodeDistances[currentIndex] + 1;
+			else if (nodeDistances[adjacency->index] == 0)
+				nodeDistances[adjacency->index] = nodeDistances[currentIndex] + 1;
 			adjacency = adjacency->next;
 		}
 
@@ -73,7 +71,6 @@ void dijkstra(Graph *graph, int start) {
 		//printf("Minimum node index is %d with distance %d from start index %d\n", minIndex, minDistance, start);
 		currentIndex = minIndex;
 		//printf("Current node index is %d\n", currentIndex);
-		distanceUntilNow++;
 	}
 
 	printf("Distances from node %d to node\n", start);
