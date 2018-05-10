@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "graph.h"
 
-int full(int *array, int size) {
+int isArrayFilled(int *array, int size) {
 
-	int i, count = 0;
+	int i;
 
 	//printf("Elements are \n");
 	for (i = 1; i < size; i++) {
@@ -20,61 +21,70 @@ int full(int *array, int size) {
 void dijkstra(Graph *graph, int start) {
 
 	int size = graph->MaxSize;
-	int *distance, distanceVal = 1, current = start, minIndex, minVal, i;
+	int *nodeDistances;
 	int *visitedNodes;
+	int currentIndex = start;
+	int distanceUntilNow = 1;
+	int minDistance, minIndex;
+	int i;
 
-	distance = calloc(size, sizeof(int));
+	/* When distance between nodes is 0, there is no known connection. */
+	nodeDistances = calloc(size, sizeof(int));
 	visitedNodes = calloc(size, sizeof(int));
 
-	while (!full(visitedNodes, size)) {
+	while (1) {
 		List *adjacency;
-		adjacency = graph->table[current].outlist;
-		visitedNodes[current] = 1;
+		adjacency = graph->table[currentIndex].outlist;
+		visitedNodes[currentIndex] = 1;
 
-		printf("Adjacency is\n");
+		//printf("Adjacency is\n");
 		while (adjacency != NULL) {
-			printf("%d\n", adjacency->index);
-			if (distance[adjacency->index] > distanceVal && distance[adjacency->index] != 0) {
-				distance[adjacency->index] = distanceVal;
-			} else if (distance[adjacency->index] == 0) {
-				distance[adjacency->index] = distanceVal;
+			//printf("%d\n", adjacency->index);
+			if (nodeDistances[adjacency->index] > distanceUntilNow && nodeDistances[adjacency->index] != 0) {
+				nodeDistances[adjacency->index] = distanceUntilNow;
+			} else if (nodeDistances[adjacency->index] == 0) {
+				nodeDistances[adjacency->index] = distanceUntilNow;
 			}
 			adjacency = adjacency->next;
 		}
 
-		//we find an initial minimum value
-		for (i = 1; i < size; i++)
-			if (distance[i] != 0 && visitedNodes[i] == 0) {
-				printf("distance : %d\n", distance[i]);
-				minVal = distance[i];
-				minIndex = i;
-				break;
-			}
-
-		//now we loop again to find the minimum
+		/* We loop to find the minimum node. */
+		minDistance = INT_MAX;
+		minIndex = -1;
 		for (i = 1; i < size; i++) {
-			if (distance[i] != 0 && visitedNodes[i] == 0) {
-				if (distance[i] <= minVal) {
-					minVal = distance[i];
+			if (nodeDistances[i] != 0 && visitedNodes[i] == 0) {
+				if (nodeDistances[i] <= minDistance) {
+					minDistance = nodeDistances[i];
 					minIndex = i;
 				}
 			}
 		}
 
-		printf("Min is %d with val %d\n", minIndex, minVal);
-		current = minIndex;
-		printf("Current is %d\n", current);
-		distanceVal++;
+		/*
+		 * Loop exit conditions:
+		 *   * no more connected nodes starting from start
+		 *   * all nodes are now visited
+		 */
+		if (minIndex == -1)
+			break;
+		if (isArrayFilled(visitedNodes, size))
+			break;
+
+		//printf("Minimum node index is %d with distance %d from start index %d\n", minIndex, minDistance, start);
+		currentIndex = minIndex;
+		//printf("Current node index is %d\n", currentIndex);
+		distanceUntilNow++;
 	}
 
-	printf("Distances from %d are\n", start);
+	printf("Distances from node %d to node\n", start);
 	for (i = 1; i < size; i++) {
 		if (i != start) {
-			printf("%d , %d\n", i, distance[i]);
+			printf("  * %d is %d\n", i, nodeDistances[i]);
 		}
 	}
+	printf("0 distance means node is not reachable.\n");
 
-	free(distance);
+	free(nodeDistances);
 	free(visitedNodes);
 }
 
